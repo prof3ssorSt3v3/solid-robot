@@ -11,13 +11,17 @@ class People extends ChangeNotifier {
 
   List<String>? _names;
   Map<String, dynamic>? _complex;
+  //private members for storage
 
   List<String>? get names => _names;
   Map<String, dynamic>? get complex => _complex;
+  //public getter for access
 
   //read from shared preferences
   Future<void> getPeople() async {
-    final prefs = await SharedPreferences.getInstance();
+    SharedPreferencesAsync prefs =
+        await SharedPreferencesAsync();
+
     List<String> starterData = [
       'Bob',
       'Tina',
@@ -27,7 +31,7 @@ class People extends ChangeNotifier {
       'Linda',
     ];
     await prefs.setStringList('listOfNames', starterData);
-    _names = prefs.getStringList('listOfNames');
+    _names = await prefs.getStringList('listOfNames');
 
     String str = jsonEncode({'name': 'Archer'});
     await prefs.setString('mapData', str);
